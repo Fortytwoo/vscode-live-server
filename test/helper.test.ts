@@ -26,13 +26,18 @@ suite('Helper Tests', () => {
             const result = Helper.IsSupportedFile(file);
             assert.equal(result, true);
         });
+        test('should return true for uppercase extension shorthand. e.g. file=HTML', () => {
+            const file = 'HTML';
+            const result = Helper.IsSupportedFile(file);
+            assert.equal(result, true);
+        });
         test('should return false for XYZ file. e.g. file=index.xyz', () => {
             const file = 'index.xyz';
             const result = Helper.IsSupportedFile(file);
             assert.equal(result, false);
         });
 
-        test('should return true for full path xyz file. e.g. file=/user/path/index.xyz', () => {
+        test('should return false for full path xyz file. e.g. file=/user/path/index.xyz', () => {
             const file = '/user/path/index.xyz';
             const result = Helper.IsSupportedFile(file);
             assert.equal(result, false);

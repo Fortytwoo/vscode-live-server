@@ -4,9 +4,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Config } from './Config';
 
-export const SUPPRORTED_EXT: string[] = [
+export const SUPPORTED_EXT: string[] = [
     '.html', '.htm', '.svg'
 ];
+// Backward-compatible alias for existing imports.
+export const SUPPRORTED_EXT: string[] = SUPPORTED_EXT;
 
 export const isRelativePath = (pathUrl: string) => {
     if (pathUrl.startsWith('*')) return false;
@@ -65,7 +67,7 @@ export class Helper {
      */
     public static IsSupportedFile(file: string): boolean {
         let ext = path.extname(file) || (file.startsWith('.') ? file : `.${file}`);
-        return SUPPRORTED_EXT.indexOf(ext.toLowerCase()) > -1;
+        return SUPPORTED_EXT.indexOf(ext.toLowerCase()) > -1;
     }
 
 
@@ -96,7 +98,7 @@ export class Helper {
         const https = Helper.getHttpsSetup();
 
         const mount = Config.getMount;
-        // In live-server mountPath is reslove by `path.resolve(process.cwd(), mountRule[1])`.
+        // In live-server mountPath is resolved by `path.resolve(process.cwd(), mountRule[1])`.
         // but in vscode `process.cwd()` is the vscode extensions path.
         // The correct path should be resolve by workspacePath.
         mount.forEach((mountRule: Array<any>) => {
@@ -148,7 +150,7 @@ export class Helper {
             proxy[0].push(proxySetup.baseUri, proxySetup.proxyUri);
         }
         else {
-            proxy = null; // required to change the type [[]] to black array [].
+            proxy = null; // required to change the type [[]] to empty array [].
         }
 
         return proxy;

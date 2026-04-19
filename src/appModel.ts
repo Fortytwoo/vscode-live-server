@@ -5,7 +5,7 @@ import { commands, window, workspace, Event, EventEmitter } from 'vscode';
 import { LiveServerHelper } from './LiveServerHelper';
 import { StatusbarUi } from './StatusbarUi';
 import { Config } from './Config';
-import { Helper, SUPPRORTED_EXT } from './Helper';
+import { Helper, SUPPORTED_EXT } from './Helper';
 import { workspaceResolver, setOrChangeWorkspace } from './workspaceResolver';
 import { IAppModel, GoLiveEvent, GoOfflineEvent } from './IAppModel';
 import { LiveShareHelper } from './LiveShareHelper';
@@ -205,10 +205,11 @@ export class AppModel implements IAppModel {
 
     private haveAnySupportedFile() {
         return new Promise<void>(resolve => {
-            const globFormat = `**/*[${SUPPRORTED_EXT.join(' | ')}]`;
+            const globFormat = `**/*{${SUPPORTED_EXT.join(',')}}`;
             workspace.findFiles(globFormat, '**/node_modules/**', 1)
                 .then(async (files) => {
                     if (files && files.length) return resolve();
+                    resolve();
                 });
         });
     }
@@ -306,5 +307,4 @@ export class AppModel implements IAppModel {
         StatusbarUi.dispose();
     }
 }
-
 
